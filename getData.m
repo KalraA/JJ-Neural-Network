@@ -91,7 +91,7 @@ costFunction = @(p) gradCostFn(p, ...
 [nn_params, cost] = fmincg(costFunction, initial_nn_params, options);
 
 
-billy = cost;
+billy = cost(end)
 
 
 %end]
