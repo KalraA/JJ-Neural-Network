@@ -76,7 +76,7 @@ lambda = lambdabefore(ii);
 
 
 %for zz = 1:50
-options = optimset('MaxIter', 100);
+options = optimset('MaxIter', 75);
 
 
 %W = randperm(size(d, 1), 90);
@@ -111,7 +111,7 @@ end
 end
 end
 end
-data = hoursbefore(jj)/5
+data = bestTime/5
 Data = Data(1:(size(Data, 1) - mod(size(Data, 1), data)));
 roundz = size(Data, 1)/data
 a = reshape(Data, data, roundz);
@@ -168,11 +168,15 @@ initial_Theta1 = randInitializeWeights(input_layer_size, hidden_layer_size);
 initial_Theta2 = randInitializeWeights(hidden_layer_size, num_labels);
 initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
 
-lambda = lambdabefore(jj);
+lambda = bestLambda;
 
 Z = [X, y];
 
-for zz = 1:300
+%The stochiac gradient descent looped from 1:training examples, and then run 10 iterations of fmincg/training example, but this got me only 78%
+%The mini-batch gradient descent would loop form 1:training examples/batch size, and run 10 iterations of fmincg/mini batch set, this only got me 81%
+%The batch gradient descent only got me 71%
+
+for zz = 1:55 
 options = optimset('MaxIter', 100);
 
 W = randperm(size(Z, 1), size(Z, 1) - floor(size(Z, 1)/10));
